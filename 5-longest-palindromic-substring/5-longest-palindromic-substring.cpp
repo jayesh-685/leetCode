@@ -1,8 +1,10 @@
 class Solution {
 public:
     // check other submissions also
-    //     using gap strategy 
+    // using gap strategy 
     // string is a palindrome if first and last character are same and the remaining string is  also a palindrome
+    // if you use s.substr for each palindrome then solution will be O(n^3) so use only at the end
+    // O(n^2)
     string longestPalindrome(string s) {
         int n = s.length();
         int dp [n][n];

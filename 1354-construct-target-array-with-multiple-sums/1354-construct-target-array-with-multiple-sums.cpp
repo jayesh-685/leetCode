@@ -16,8 +16,11 @@ public:
             long long a = pq.top(); pq.pop();
             sum -= a;
             // cout << "Sum= " << sum << endl;
+//             if largest element is 1 then we have reached our solution
+//             if remaining sum is 1 then we can easily create 1 array by subtracting it again and again
             if (a==1 || sum==1)
                 return true;
+//             if there is only one element then sum can be 0
             if (sum>a || sum==0 || a%sum==0)
                 return false;
             

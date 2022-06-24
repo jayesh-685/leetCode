@@ -2,7 +2,7 @@ class Solution {
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
         int n=mat.size(), m=mat[0].size();
-        vector <vector <int>> ans (n, vector <int> (m, -1));
+        vector <vector <int>> ans (n, vector <int> (m, INT_MAX));
         queue <pair<int, int>> q;
         
         for (int i=0; i<n; i++) {
@@ -21,9 +21,11 @@ public:
             int i=p.first, j=p.second;
             for (int k=0; k<4; k++) {
                 int x = i+d[k], y = j+d[k+1];
-                if ((x>=0&&y>=0&&x<n&&y<m) && ans[x][y]==-1) {
-                    ans[x][y] = ans[i][j]+1;
-                    q.push({x, y});
+                if (x>=0 && y>=0 && x<n && y<m) {
+                    if (ans[x][y]>ans[i][j]+1) {
+                        ans[x][y] = ans[i][j]+1;
+                        q.push({x, y});
+                    }
                 }
             }
         }

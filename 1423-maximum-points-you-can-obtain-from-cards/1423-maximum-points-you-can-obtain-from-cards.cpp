@@ -1,5 +1,6 @@
 class Solution {
 public:
+//     start from the first n-k elements and find the subarray with min sum
     int maxScore(vector<int>& cardPoints, int k) {
         int sum=0, n=cardPoints.size();
         for (int i=0; i<n; i++) {

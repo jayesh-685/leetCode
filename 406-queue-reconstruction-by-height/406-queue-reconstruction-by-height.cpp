@@ -1,25 +1,22 @@
 class Solution {
 public:
-//     first sort in decreasing order
-//     for every element [h, k] insert at kth index
-//     since we have already inserted larger elements so value of k will be true
-//     if we later insert some other element at the same index then we have to move back the larger elements but since we are inserting smaller elements their position will still be valid.
-    
-//     or we can sort in increasing order and insert each element after k empty spaces (for the k larger elements)
     vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
-        sort (people.begin(), people.end(), [](vector<int>p1, vector<int>p2) {
-            return p1[0]==p2[0]?p1[1]<p2[1]:p1[0]>p2[0];
-        });
-        
-        // for (auto p: people)
-            // cout << p[0] << " " << p[1] << " ";
-        
-        vector <vector <int>> ans;
-        
-        for (auto p: people) {
-            ans.insert(ans.begin()+p[1], p);
+        sort(people.begin(), people.end(), cmp);
+        vector<vector<int>> res(people.size(), vector<int>());
+        for(int i = 0; i < people.size(); i++){
+            int cnt, j;
+            for(cnt = 0, j = 0; j < res.size(); j++){ //empty count start from 0
+                if(res[j].empty()){
+                    if(cnt==people[i][1]) break;
+                    cnt++;
+                }
+            }
+            res[j]=people[i];
         }
-        
-        return ans;
+        return res;
+    }
+    static bool cmp(vector<int>& p1, vector<int>& p2){
+        if(p1[0]!=p2[0]) return p1[0]<p2[0];
+        else return p1[1]>p2[1];
     }
 };

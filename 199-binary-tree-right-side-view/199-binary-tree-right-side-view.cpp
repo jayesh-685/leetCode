@@ -11,20 +11,19 @@
  */
 class Solution {
 public:
-    vector<int> rightSideView(TreeNode* root) {
-        queue <TreeNode*> q;
-        vector <int> ans;
-        if (root)   q.push(root);
-        while (!q.empty()) {
-            int n=q.size();
-            for (int i=0; i<n; i++) {
-                TreeNode* curr = q.front();    q.pop();
-                if (curr->left)    q.push(curr->left);
-                if (curr->right)    q.push(curr->right);
-                if (i==n-1)    ans.push_back(curr->val);
-            }
-        }
+//     since only one need can be seen from right side at each level, you can do dfs (right node first) and insert the first elements at each level by checking size of answer array
+    vector <int> ans;
+    void dfs (TreeNode* root, int level) {
+        if (!root)
+            return;
+        if (level == ans.size())    
+            ans.push_back(root->val);
         
+        dfs(root->right, level+1);
+        dfs(root->left, level+1);
+    }
+    vector<int> rightSideView(TreeNode* root) {
+        dfs(root, 0);
         return ans;
     }
 };

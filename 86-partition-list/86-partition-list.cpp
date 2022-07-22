@@ -10,6 +10,7 @@
  */
 class Solution {
 public:
+//     create two linked lists one for less than x other from >= x then at last join them together
     ListNode* partition(ListNode* head, int x) {
         ListNode *first = new ListNode (0);
         ListNode *second = new ListNode (0);

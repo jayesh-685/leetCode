@@ -1,5 +1,6 @@
 class Solution {
 public:
+//     start from top right or bottom left
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
         int n=matrix.size(), m=matrix[0].size();
         int p=0, q=m-1;

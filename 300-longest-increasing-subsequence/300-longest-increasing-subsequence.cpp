@@ -1,22 +1,19 @@
 class Solution {
 public:
-//     memo
-    int solve (vector<int>& nums, int i, int n, int prev, vector<vector<int>>& dp) {
-        if (i==n)
-            return 0;
-        
-        if (dp[i][prev+1]!=-1)
-            return dp[i][prev+1];
-        
-        int len = solve(nums, i+1, n, prev, dp);
-        if (prev==-1 || nums[i]>nums[prev])
-            len = max(len, 1+solve(nums, i+1, n, i, dp));
-        
-        return dp[i][prev+1]=len;
-    }
+//     if arr[i] > arr[j] where i>j then length of lis ending at i = 1+ length of lis ending at j
     int lengthOfLIS(vector<int>& nums) {
         int n=nums.size();
-        vector <vector <int>> dp (n, vector <int> (n+1, -1));
-        return solve(nums, 0, nums.size(), -1, dp);
+        int res=1;
+        vector <int> dp (n, 1); // because even if all elements are in decreases order still lis length is 1
+        for (int i=1; i<n; i++) {
+            for (int j=0; j<i; j++) {
+                if (nums[j]<nums[i]) {
+                    dp[i] = max(dp[i], 1+dp[j]);
+                    res = max(res, dp[i]);
+                }
+            }
+        }
+        
+        return res;
     }
 };

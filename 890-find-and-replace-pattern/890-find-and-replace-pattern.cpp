@@ -1,28 +1,30 @@
 class Solution {
 public:
-//     use 2 maps or 1 map and 1 array
-    bool match (string s, string pattern) {
-        unordered_map <char, char> m1;
-        unordered_map <char, char> m2;
-        for (int i=0; i<s.length(); i++) {
-            char c=s[i], p=pattern[i];
-            if (m1.find(c) == m1.end()) {
-                if (m2.find(p) != m2.end())
-                    return false;
-                m1[c] = p; m2[p] = c;
-            } else {
-                if (m1[c]!=p)
-                    return false;
-            }
+    // using string normalization
+    // converting all occurences of first found character to a, all occurences of second found character to b, then c and so on...
+    // Consider the words "mmnpoq" and "ppqqqz". We can convert these into - "aabcde" and "aabbbc". Since they are not equal, we can say both these words don't match.
+// Similarly, the words "mnpqrr" and "xyzabb" can be converted into "abcdee" and "abcdee" respectively. Since they are equal, we say that these two words match.
+    
+    string normalize (string s) {
+        unordered_map <char, char> m;
+        char x='a';
+        for (auto c: s) {
+            if (!m.count(c))    m[c] = x++;
         }
-        return true;
+        
+        for (auto& c: s)
+            c = m[c];
+        
+        return s;
     }
+
     vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
+        pattern = normalize(pattern);
         vector <string> ans;
-        for (auto s: words)
-            if (match(s, pattern))
+        for (auto s: words) 
+            if (normalize(s) == pattern)
                 ans.push_back(s);
-                
+        
         return ans;
     }
 };

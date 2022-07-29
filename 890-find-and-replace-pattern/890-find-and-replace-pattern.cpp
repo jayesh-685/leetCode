@@ -11,7 +11,7 @@ public:
                     return false;
                 m1[c] = p; m2[p] = c;
             } else {
-                if (m1[c]!=p || m2[p]!=c)
+                if (m1[c]!=p)
                     return false;
             }
         }

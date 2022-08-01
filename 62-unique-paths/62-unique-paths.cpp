@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int ans;
+//     no of unique ways to reach from i, j = no of ways to reach from i, j+1 + from i+1, j
     vector <vector <int>> dp;
     int M, N;
     int solve (int i, int j) {

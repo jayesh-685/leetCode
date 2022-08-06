@@ -15,7 +15,7 @@ public:
 //                 i.e not conflicting, just update the lastEnd
                 lastEnd = intervals[i][1];
             } else {
-                cout << lastEnd << endl;
+                // cout << lastEnd << endl;
                 ans++;
                 lastEnd = min(lastEnd, intervals[i][1]);
             }

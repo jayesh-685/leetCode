@@ -1,21 +1,18 @@
 class Solution {
 public:
-    vector <int> dp;
-    bool solve(vector<int>& jumps, int i, int n) {
-        if(i>=n-1)
-            return true;
+    bool canJump(vector<int>& nums) {
+        int n=nums.size();
+        vector <bool> dp (n, false);
+        dp[n-1] = true;
+        for (int i=n-2; i>=0; i--) {
+            for (int k=1; i+k<n && k<=nums[i]; k++) {
+                if (dp[i+k]) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
         
-        if (dp[i] != -1)
-            return dp[i];
-        for (int k=1; k<=jumps[i]; k++)
-            if (solve(jumps, i+k, n))
-                return dp[i]=true;
-        
-        return dp[i]=false;
-    }
-    bool canJump(vector<int>& jumps) {
-        vector <int> temp(jumps.size(), -1);
-        dp = temp;
-        return solve(jumps, 0, jumps.size());
+        return dp[0];
     }
 };

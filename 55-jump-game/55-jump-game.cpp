@@ -1,18 +1,13 @@
 class Solution {
 public:
+//     start from second last index. if you can reach the last index from the second last index, set the last index as last index and try from third last index and so on...
     bool canJump(vector<int>& nums) {
-        int n=nums.size();
-        vector <bool> dp (n, false);
-        dp[n-1] = true;
+        int n=nums.size(), last=n-1;
         for (int i=n-2; i>=0; i--) {
-            for (int k=1; i+k<n && k<=nums[i]; k++) {
-                if (dp[i+k]) {
-                    dp[i] = true;
-                    break;
-                }
-            }
+            if (i+nums[i] >= last)
+                last = i;
         }
         
-        return dp[0];
+        return last==0;
     }
 };

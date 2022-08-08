@@ -1,26 +1,22 @@
 class Solution {
 public:
-//     if no elements return 0;
-//     memo
-    vector <vector <int>> dp;
-    int lis (vector<int>& nums, int i, int n, int prev) {
-        
-        if (i==n)
-            return 0;
-        
-        if (dp[i][prev+1] != -1)
-            return dp[i][prev+1];
-        
-        if (prev==-1 || nums[i] > nums[prev])
-            return dp[i][prev+1] = max(lis(nums, i+1, n, prev), 1+lis(nums, i+1, n, i));
-        return dp[i][prev+1] = (lis(nums, i+1, n, prev));
-        
-        
-    }
+//     in nums[i] > num[j] then length of lis start with nums[i] = length of lis starting with nums[j] + 1
     int lengthOfLIS(vector<int>& nums) {
-        int n=nums.size();
-        vector <vector <int>> temp(n, vector <int> (n+1, -1));
-        dp = temp;
-        return lis(nums, 0, nums.size(), -1);
+        vector <int> dp (nums.size(), 1);
+        int ans=1, n=nums.size();
+        
+        for (int i=1; i<n; i++) {
+            // cout << i << endl;
+            for (int j=0; j<i; j++) {
+                if (nums[j]<nums[i]) {
+                    // cout << "hello" << endl;
+                    dp[i] = max(dp[i], dp[j]+1);
+                    ans = max(ans, dp[i]);
+                    // cout << ans << endl;
+                }
+            }
+        }
+        
+        return ans;
     }
 };

@@ -1,1 +1,1 @@
-​
+initializing vector with -1 is a costly operation so use 0 instead of -1

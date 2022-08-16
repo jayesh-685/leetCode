@@ -1,29 +1,22 @@
 class Solution {
 public:
-    // total no ways is no of ways by including curr char (if valid) and by including curr and next char together (if valid)
-    
-    vector <int> dp;
-    int solve (string s, int i) {
-        if (i==s.length())
-            return 1;
-        
-        if (dp[i] != -1)
-            return dp[i];
-        int l1=0;
-        if (s[i]!='0')
-            l1 = solve(s, i+1);
-        int l2=0;
-        if (i<s.length()-1) {
-            string temp = s.substr(i, 2);
-            if (temp>="10" && temp<="26")
-                l2 = solve(s, i+2);
+    int numDecodings(string s) {
+        vector <int> dp (s.length()+1, 0);
+        dp[s.length()] = 1;
+        for (int i=s.length()-1; i>=0; i--) {
+            int l1=0;
+            if (s[i] != '0')
+                l1 = dp[i+1];
+            int l2=0;
+            if (i<s.length()-1) {
+                string temp = s.substr(i,2);
+                if (temp>="10" && temp<="26")
+                    l2 = dp[i+2];
+            }
+            dp[i] = l1+l2;
+            cout << i << " " << dp[i] << endl;
         }
         
-        return dp[i] = l1 + l2;
-    }
-    int numDecodings(string s) {
-        vector <int> temp (s.length(), -1);
-        dp = temp;
-        return solve(s, 0);
+        return dp[0];
     }
 };

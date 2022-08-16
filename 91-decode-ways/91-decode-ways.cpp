@@ -1,5 +1,7 @@
 class Solution {
 public:
+    // total no ways is no of ways by including curr char (if valid) and by including curr and next char together (if valid)
+    
     vector <int> dp;
     int solve (string s, int i) {
         if (i==s.length())

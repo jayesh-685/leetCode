@@ -21,6 +21,9 @@ public:
 
 class Solution {
 public:
+//     bfs
+//     use hash map to store clone of each original node
+//     don't need visited array because if clone doesn't exist then we haven't visited it before so create clone and push in array
     Node* cloneGraph(Node* node) {
         if (!node)
             return node;

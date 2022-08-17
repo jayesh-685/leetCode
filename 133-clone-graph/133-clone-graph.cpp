@@ -21,6 +21,8 @@ public:
 
 class Solution {
 public:
+//     using bfs
+//     use array/hashmap to keep track of clone nodes of which original nodes have been created and which are to be created
     Node* cloneGraph(Node* node) {     
         
         vector <bool> visited (101, false);
@@ -35,6 +37,7 @@ public:
             // cout << "curr " << curr->val << endl;
             Node* cloneNode;
             
+//             if clone node doesn't exist make one otherwise use the existing one
             if (nodeAdd[curr->val]==NULL) {
                 cloneNode = new Node (curr->val);
                 nodeAdd[curr->val] = cloneNode;
@@ -42,6 +45,7 @@ public:
                 cloneNode = nodeAdd[curr->val];
             }
             
+//             iterating over neighbors, if clone node doesn't exist then create and then add to neighbour list
             for (auto nbr: curr->neighbors) {
                 // cout << nbr->val << " ";
                 if (!visited[nbr->val]) {

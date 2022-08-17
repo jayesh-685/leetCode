@@ -1,5 +1,7 @@
 class Solution {
 public:
+//     similar to longest palindrome
+//     for each char find all odd length palindromes and even length palindromes
     int count;
     string str;
     void solve (int i, int j) {

@@ -1,7 +1,21 @@
 class Solution {
 public:
-    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+    
+    void bfs (vector<vector<int>>& grid, queue<pair<int, int>>& q, vector<vector<int>>& heights) {
+        int n=heights.size(), m=heights[0].size();
         int ds[] = {-1, 0, 1, 0, -1};
+        while (!q.empty()) {
+            auto [x, y] = q.front();    q.pop();
+            grid[x][y] = true;
+            for (int i=0; i<4; i++) {
+                int p=x+ds[i], r=y+ds[i+1];
+                if (p>=0 && r>=0 && p<n && r<m && heights[p][r]>=heights[x][y] && !grid[p][r])
+                    q.push({p, r});
+            }
+        }
+    }
+    
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
         int n=heights.size(), m=heights[0].size();
         vector <vector <int>> pacific (n, vector<int>(m, false));
         queue <pair<int, int>> q;
@@ -14,15 +28,7 @@ public:
             q.push({0, i});
         }
         
-        while (!q.empty()) {
-            auto [x, y] = q.front();    q.pop();
-            pacific[x][y] = true;
-            for (int i=0; i<4; i++) {
-                int p=x+ds[i], r=y+ds[i+1];
-                if (p>=0 && r>=0 && p<n && r<m && heights[p][r]>=heights[x][y] && !pacific[p][r])
-                    q.push({p, r});
-            }
-        }
+        bfs(pacific, q, heights);
         
         vector <vector <int>> atlantic (n, vector<int>(m, false));
         for (int i=0; i<n; i++) {
@@ -34,15 +40,7 @@ public:
             q.push({n-1, i});
         }
         
-        while (!q.empty()) {
-            auto [x, y] = q.front();    q.pop();
-            atlantic[x][y] = true;
-            for (int i=0; i<4; i++) {
-                int p=x+ds[i], r=y+ds[i+1];
-                if (p>=0 && r>=0 && p<n && r<m && heights[p][r]>=heights[x][y] && !atlantic[p][r])
-                    q.push({p, r});
-            }
-        }
+        bfs(atlantic, q, heights);
         
         vector<vector<int>> ans;
         for (int i=0; i<n; i++) {

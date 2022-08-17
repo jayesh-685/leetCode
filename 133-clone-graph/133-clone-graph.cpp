@@ -21,48 +21,27 @@ public:
 
 class Solution {
 public:
-//     using bfs
-//     use array/hashmap to keep track of clone nodes of which original nodes have been created and which are to be created
-    Node* cloneGraph(Node* node) {     
+    Node* cloneGraph(Node* node) {
+        if (!node)
+            return node;
         
-        vector <bool> visited (101, false);
-        vector <Node*> nodeAdd (101, NULL);
-        
-        queue <Node*> q;    
-        if (node)   q.push(node);
-        visited[1] = true;
-        
+        unordered_map <Node*, Node*> m;
+        Node* clone = new Node (node->val);
+        m[node] = clone;
+        queue <Node*> q;    q.push(node);
         while (!q.empty()) {
             Node* curr = q.front(); q.pop();
-            // cout << "curr " << curr->val << endl;
-            Node* cloneNode;
             
-//             if clone node doesn't exist make one otherwise use the existing one
-            if (nodeAdd[curr->val]==NULL) {
-                cloneNode = new Node (curr->val);
-                nodeAdd[curr->val] = cloneNode;
-            } else {
-                cloneNode = nodeAdd[curr->val];
-            }
-            
-//             iterating over neighbors, if clone node doesn't exist then create and then add to neighbour list
             for (auto nbr: curr->neighbors) {
-                // cout << nbr->val << " ";
-                if (!visited[nbr->val]) {
-                    visited[nbr->val] = true;
+                if (m.find(nbr) == m.end()) {
+                    m[nbr] = new Node (nbr->val);
                     q.push(nbr);
                 }
                 
-                if (nodeAdd[nbr->val]==NULL) {
-                    Node* tempNode = new Node (nbr->val);
-                    nodeAdd[nbr->val] = tempNode;
-                    cloneNode->neighbors.push_back(tempNode);
-                } else {
-                    cloneNode->neighbors.push_back(nodeAdd[nbr->val]);
-                }
-                // cout << endl;
+                m[curr]->neighbors.push_back(m[nbr]);
             }
         }
-        return nodeAdd[1];
+        
+        return clone;
     }
 };

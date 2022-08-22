@@ -36,11 +36,13 @@ private:
                 node = node->next[c - 'a'];
             }
             else{
-                for (int j=0; j<26; j++) {
-                    if (node->next[j] && helper(word.substr(i+1), node->next[j]))
-                        return true;
+                bool found = false;
+                int j = 0;
+                for(; j < 26; j++){
+                    if(node->next[j]) found |= helper(word.substr(i + 1), node->next[j]);
+                    if(found) return true;
                 }
-                return false;
+                if(j == 26) return false;
             }
         }
         return node->isKey;

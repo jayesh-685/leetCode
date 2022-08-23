@@ -11,28 +11,21 @@
  */
 class Solution {
 public:
-    
-    bool isSameTree (TreeNode* r1, TreeNode* r2) {
-        if (!r1 && !r2)
-            return true;
-        if (!r1 || !r2)
-            return false;
+    void serialize (TreeNode* root, string& s) {
+        if (!root) {
+            s += "N,";
+            return;
+        }
         
-        return r1->val==r2->val && isSameTree(r1->left, r2->left) && isSameTree(r1->right, r2->right);
+        s += ","+to_string(root->val)+",";
+        serialize(root->left, s);
+        serialize(root->right, s);
     }
     bool isSubtree(TreeNode* root, TreeNode* subRoot) {
-        if (!root && !subRoot)
-            return true;
-        if (!root || !subRoot)
-            return false;
-        
-        if (root->val == subRoot->val)
-            if(isSameTree(root, subRoot))
-                return true;
-        
-        if (isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot))
-            return true;    
-        
-        return false;
+        string s1, s2;
+        serialize(root, s1); serialize(subRoot, s2);
+        cout << s1 << endl;
+        cout << s2 << endl;
+        return s1.find(s2) != string::npos;
     }
 };

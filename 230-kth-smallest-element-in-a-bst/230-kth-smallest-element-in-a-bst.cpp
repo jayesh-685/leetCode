@@ -17,7 +17,7 @@ public:
             return;
         inorder(root->left, v, k);
         v.push_back(root->val);
-        if (v.size() >= k)
+        if (v.size() == k)
             return;
         inorder(root->right, v, k);
     }

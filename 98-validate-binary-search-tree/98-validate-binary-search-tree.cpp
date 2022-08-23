@@ -11,17 +11,21 @@
  */
 class Solution {
 public:
-//     INT_MIN INT_MAX won't work
-    
-    bool validBST (TreeNode* root, long long min, long long max) {
+    bool leftCheck (TreeNode* root, int x) {
         if (!root)
             return true;
-        
-        int val = root->val;
-        return val>min && val<max && validBST(root->left, min, val) && validBST(root->right, val, max);
+        return root->val<x && leftCheck(root->left, x) && leftCheck(root->right, x);
+    }
+    
+    bool rightCheck (TreeNode* root, int x) {
+        if (!root)
+            return true;
+        return root->val>x && rightCheck(root->left, x) && rightCheck(root->right, x);
     }
     
     bool isValidBST(TreeNode* root) {
-        return validBST(root, LONG_MIN, LONG_MAX);
+        if (!root)
+            return true;
+        return leftCheck(root->left, root->val) && rightCheck(root->right, root->val) && isValidBST(root->left) && isValidBST(root->right);
     }
 };

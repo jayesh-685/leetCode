@@ -13,7 +13,7 @@ class Solution {
 public:
     void serialize (TreeNode* root, string& s) {
         if (!root) {
-            s += "N,";
+            s += ",N,";
             return;
         }
         

@@ -11,21 +11,22 @@
  */
 class Solution {
 public:
-    bool leftCheck (TreeNode* root, int x) {
-        if (!root)
-            return true;
-        return root->val<x && leftCheck(root->left, x) && leftCheck(root->right, x);
-    }
-    
-    bool rightCheck (TreeNode* root, int x) {
-        if (!root)
-            return true;
-        return root->val>x && rightCheck(root->left, x) && rightCheck(root->right, x);
-    }
-    
+    TreeNode* prev=NULL;
     bool isValidBST(TreeNode* root) {
         if (!root)
             return true;
-        return leftCheck(root->left, root->val) && rightCheck(root->right, root->val) && isValidBST(root->left) && isValidBST(root->right);
+        
+        if (isValidBST(root->left)) {
+            if (prev) {
+                if (root->val<=prev->val)
+                    return false;
+                prev=root;
+                return isValidBST(root->right);
+            }
+            prev=root;
+            return isValidBST(root->right);
+        }
+        
+        return false;
     }
 };

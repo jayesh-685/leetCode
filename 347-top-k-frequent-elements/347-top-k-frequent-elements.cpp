@@ -1,23 +1,26 @@
-typedef pair<int, int> pi;
 class Solution {
 public:
-//     worst case is still O(nlogn) in case all elements are unique
+//     modification of bucket sort
+//     in bucket store you create a array and store frequency of each element 
+//     here we will create a array of size n+1 and arr[i] will store list of elements with freq = i
+//     so we will start from last and print k elements
     vector<int> topKFrequent(vector<int>& nums, int k) {
-        unordered_map <int, int> m;
-        for (auto c: nums) {
-            m[c]++;
-        }
+        unordered_map <int, int> mp;
+        for (auto n: nums)
+            mp[n]++;
         
-        priority_queue <pi, vector<pi>, greater<pi>> pq;
-        for (auto p: m) {
-            pq.push({p.second, p.first});
-            if (pq.size() > k)  pq.pop();
+        vector <vector<int>> bucket (nums.size()+1);
+        
+        for (auto it: mp) {
+            bucket[it.second].push_back(it.first);
         }
         
         vector<int> ans;
-        while (!pq.empty()) {
-            auto [x, y] = pq.top(); pq.pop();
-            ans.push_back(y);
+        for (int i=nums.size(); i>0; i--) {
+            if (bucket[i].size()) {
+                for (int j=0; j<bucket[i].size() && ans.size()<k; j++)
+                    ans.push_back(bucket[i][j]);
+            }
         }
         
         return ans;

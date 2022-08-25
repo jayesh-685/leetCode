@@ -1,6 +1,7 @@
 typedef pair<int, int> pi;
 class Solution {
 public:
+//     worst case is still O(nlogn) in case all elements are unique
     vector<int> topKFrequent(vector<int>& nums, int k) {
         unordered_map <int, int> m;
         for (auto c: nums) {

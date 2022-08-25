@@ -1,14 +1,21 @@
 class Solution {
 public:
     // sort the strings then store them in map where key is the sorted string and value is the anagrams like aet: {eat, tea, ate}
+    
+    void getFreq (string& s, vector<int>& v) {
+        for (int i=0; i<s.length(); i++) {
+            v[s[i]-'a']++;
+        }
+    }
+    
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
         vector<vector<string>> ans;
-        unordered_map <string, vector<string>> m;
+        map <vector<int>, vector<string>> m;
         
         for (int i=0; i<strs.size(); i++) {
-            string str = strs[i];
-            sort(str.begin(), str.end());
-            m[str].push_back(strs[i]);
+            vector<int> v (26, 0);
+            getFreq (strs[i], v);
+            m[v].push_back(strs[i]);
         }
         
         for(auto i = m.begin(); i != m.end(); i++)

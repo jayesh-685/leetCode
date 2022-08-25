@@ -6,16 +6,12 @@ public:
         prefix[0]=1; suffix[n]=1;
         
         for (int i=0; i<n; i++) {
-            cout << i << " ";
             prefix[i+1] = prefix[i]*nums[i];
             suffix[n-i-1] = suffix[n-i] * nums[n-i-1];
         }
         
-        cout << "hello";
-        
         vector <int> ans (n);
         for (int i=0; i<n; i++) {
-            cout << i << " ";
             ans[i] = prefix[i] * suffix[i+1];
         }
         

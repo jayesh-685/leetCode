@@ -8,27 +8,26 @@ public:
         
         while (l<=r && u<=d) {
             switch (dr) {
-                case '1': {
+                case '1': 
                     for (int i=l; i<=r; i++)
                         ans.push_back(matrix[u][i]);
                     u++; dr='2';
                     break;
-                } case '2' : {
+                case '2' : 
                     for (int i=u; i<=d; i++)
                         ans.push_back(matrix[i][r]);
                     r--; dr='3';
                     break;
-                } case '3' : {
+                case '3' : 
                     for (int i=r; i>=l; i--)
                         ans.push_back(matrix[d][i]);
                     d--; dr='4';
                     break;
-                } case '4' : {
+                case '4' : 
                     for (int i=d; i>=u; i--)
                         ans.push_back(matrix[i][l]);
                     l++; dr='1';
                     break;
-                }
             }
         }
         

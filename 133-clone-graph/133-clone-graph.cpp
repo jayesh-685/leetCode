@@ -21,30 +21,28 @@ public:
 
 class Solution {
 public:
-//     bfs
-//     use hash map to store clone of each original node
-//     don't need visited array because if clone doesn't exist then we haven't visited it before so create clone and push in array
     Node* cloneGraph(Node* node) {
         if (!node)
             return node;
-        
+        Node* cloneNode = new Node (node->val);
         unordered_map <Node*, Node*> m;
-        Node* clone = new Node (node->val);
-        m[node] = clone;
-        queue <Node*> q;    q.push(node);
+        m[node] = cloneNode;
+        queue <Node*> q;
+        q.push(node);
+        
         while (!q.empty()) {
             Node* curr = q.front(); q.pop();
-            
+            vector<Node*> nbrs;
             for (auto nbr: curr->neighbors) {
-                if (m.find(nbr) == m.end()) {
+                if (!m[nbr]) {
                     m[nbr] = new Node (nbr->val);
                     q.push(nbr);
                 }
-                
-                m[curr]->neighbors.push_back(m[nbr]);
+                nbrs.push_back(m[nbr]);
             }
+            m[curr]->neighbors = nbrs;
         }
         
-        return clone;
+        return cloneNode;
     }
 };

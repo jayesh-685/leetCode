@@ -3,7 +3,7 @@ public:
     int memo[10001];
     int solve (vector<int>& coins, int amount) {
         if (amount<0)
-            return INT_MAX;
+            return -1;
         if (amount==0)
             return 0;
         

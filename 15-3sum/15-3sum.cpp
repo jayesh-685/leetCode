@@ -1,5 +1,8 @@
 class Solution {
 public:
+    // burte force is just 3 for loops but to solve duplicate problem sort the array and if you have found the triplet for curr element and next element is also same then skip the next elemet.
+//     for the curr element use the 2sum method to find the remaining two elements and in that too skip same elements once you have calculated 2sum using those 2 elements.
+//     O(n^2)
     vector<vector<int>> threeSum(vector<int>& nums) {
         vector<vector<int>> ans;
         sort(nums.begin(), nums.end());

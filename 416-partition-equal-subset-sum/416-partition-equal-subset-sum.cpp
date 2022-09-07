@@ -14,7 +14,7 @@ public:
     bool canPartition(vector<int>& nums) {
         
         int n=nums.size();
-        vector<vector<int>> dp (n, vector<int>(20000, -1));
+        vector<vector<int>> dp (n, vector<int>(accumulate(nums.begin(), nums.end(), 0)+1, -1));
         return solve(0, nums, 0, 0, dp);
     }
 };

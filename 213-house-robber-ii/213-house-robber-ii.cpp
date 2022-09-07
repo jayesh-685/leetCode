@@ -1,5 +1,6 @@
 class Solution {
 public:
+//     since first and last house can't be robbed together, one case is when available houses and 0 to n-1 and other case is when available houses are 1 to n so return max of both cases.
     int solve (int i, vector<int>& nums, int n) {
         int with=nums[i], without=0;
         

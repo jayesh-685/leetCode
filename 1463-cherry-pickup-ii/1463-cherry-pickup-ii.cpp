@@ -1,27 +1,39 @@
 class Solution {
 public:
-    int solve (vector<vector<int>>& grid, int r, int c1, int c2, vector<vector<vector<int>>>& dp) {
-        if ((c1<0 || c2<0 || r>=grid.size() || c1>=grid[0].size() || c2>=grid[0].size()))
-            return -1;
+    int cherryPickup(vector<vector<int>>& grid) {
         
-        if (dp[r][c1][c2] != -1)
-            return dp[r][c1][c2];
-        vector<int> ds = {-1, 0, 1};
-        int v1=grid[r][c1];
-        int v2=grid[r][c2];
-        if (c1==c2) v2=0;        
-        int maxS=0;
-        // cout << r << " " << c1 << " " << c2 << endl;
-        for (int i=0; i<3; i++) {
-            for (int j=0; j<3; j++) {
-                    maxS = max(maxS, solve(grid, r+1, c1+ds[i], c2+ds[j], dp));
+        int n=grid.size(), m=grid[0].size();
+        
+        vector<vector<vector<int>>> dp (n, vector<vector<int>>(m, vector<int>(m)));
+        
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<m; j++) {
+                dp[n-1][i][j] = i==j ? grid[n-1][i] : grid[n-1][i] + grid[n-1][j];
             }
         }
-        return dp[r][c1][c2] = v1 + v2 + maxS;
-    }
-    int cherryPickup(vector<vector<int>>& grid) {
-        int n=grid.size(), m=grid[0].size();
-        vector<vector<vector<int>>> dp (n, vector<vector<int>> (m, vector<int>(m, -1)));
-        return solve(grid, 0, 0, grid[0].size()-1, dp);
+        
+        // cout << ".." << endl;
+        
+        for (int i=n-2; i>=0; i--) {
+            for (int j=0; j<m; j++) {
+                for (int k=0; k<m; k++) {
+                    dp[i][j][k] = j==k? grid[i][j] : grid[i][j]+grid[i][k];
+                    
+                    int ans=INT_MIN;
+                    
+                    for (int dx=-1; dx<=1; dx++) {
+                        for (int dy=-1; dy<=1; dy++) {
+                            if (!(j+dx<0 || k+dy<0 || j+dx>=m || k+dy>=m))
+                                ans = max(ans, dp[i+1][j+dx][k+dy]);
+                        }
+                    }
+                    
+                    dp[i][j][k] += ans;
+                    // cout << i << " " << j << " " << k << endl;
+                }
+            }
+        }
+        
+        return dp[0][0][m-1];
     }
 };

@@ -9,31 +9,27 @@ using namespace std;
 
 class Solution{
 public:
-// it takes O(n) time to calculate f(i, j) and there are n^2 possible valued for i and j so final time complexity is O(n^3)
-    int f (int arr[], int i, int j, vector<vector<int>>& dp) {
-        if(i == j)
-            return 0;
-        
-        if (dp[i][j])
-            return dp[i][j];
-        int mini = INT_MAX;
-        
-        // partioning loop
-        for(int k = i; k<= j-1; k++){
-            
-            int ans = f(arr,i,k, dp) + f(arr, k+1,j, dp) + arr[i-1]*arr[k]*arr[j];
-            
-            mini = min(mini,ans);
-            
-        }
-        
-        return dp[i][j]=mini;
-    }
+// in tabulation we solve smaller problems first which is f(n-2, n-1)
     int matrixMultiplication(int N, int arr[])
     {
         // code here
-        vector<vector<int>> dp (N, vector<int>(N));
-        return f(arr, 1, N-1, dp);
+        int dp[N][N];
+        
+        for (int i=0; i<N; i++)
+            dp[i][i]=0; // base case same as memo
+            
+        for (int i=N-1; i>=1; i--) {
+            for (int j=i+1; j<N; j++) {
+                // when we partition i represents left side and j represents right side j>i
+                int ans=INT_MAX;
+                for (int k=i; k<j; k++) {
+                    ans = min(ans, dp[i][k] + dp[k+1][j] + arr[i-1]*arr[k]*arr[j]);
+                }
+                dp[i][j]=ans;
+            }
+        }
+        
+        return dp[1][N-1];
     }
 };
 

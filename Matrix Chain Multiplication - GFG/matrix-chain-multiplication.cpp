@@ -9,6 +9,7 @@ using namespace std;
 
 class Solution{
 public:
+// it takes O(n) time to calculate f(i, j) and there are n^2 possible valued for i and j so final time complexity is O(n^3)
     int f (int arr[], int i, int j, vector<vector<int>>& dp) {
         if(i == j)
             return 0;

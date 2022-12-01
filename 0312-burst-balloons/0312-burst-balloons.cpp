@@ -52,7 +52,22 @@ Important point to be noted here is that the balloons in the range (i, k - 1) an
         nums.push_back(1);
         nums.insert(nums.begin(), 1);
         int n=nums.size();
-        vector<vector<int>> dp (n, vector<int>(n, -1));
-        return solve(nums, 1, nums.size()-2, dp);
+        vector<vector<int>> dp (n, vector<int>(n));
+        
+        for (int i=n-2; i>=1; i--) {
+            for (int j=1; j<=n-2; j++) {
+                if (i<=j) {
+                    int maxi = INT_MIN;
+                    for (int k=i; k<=j; k++) {
+                        int ans = (nums[i-1] * nums[k] * nums[j+1]) + dp[i][k-1] + dp[k+1][j]; 
+                        maxi = max(maxi, ans);
+                    }
+
+                    dp[i][j]=maxi;
+                }
+            }
+        }
+        
+        return dp[1][n-2];
     }
 };

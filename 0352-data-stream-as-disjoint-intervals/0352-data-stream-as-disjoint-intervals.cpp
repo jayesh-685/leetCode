@@ -1,38 +1,34 @@
 class SummaryRanges {
-    set <int> st;
+    map<int, int> intervals;
+
 public:
-    SummaryRanges() {
-        
-    }
-    
+    SummaryRanges() {}
+
     void addNum(int value) {
-        st.insert(value);
-    }
-    
-    vector<vector<int>> getIntervals() {
-        vector<vector<int>> ans;
-        
-        int n=size(st);
-        int left=-1, right=-1;
-        for (auto num: st) {
-            if (left==-1) {
-                left=right=num;
-            } else if (num==right+1) {
-                right++;
-            } else {
-                ans.push_back({left, right});
-                left = right = num;
+        int left = value, right = value;
+        auto small_entry = intervals.upper_bound(value);
+        if (small_entry != intervals.begin()) {
+            auto max_entry = small_entry;
+            --max_entry;
+            if (max_entry->second >= value) {
+                return;
+            }
+            if (max_entry->second == value - 1) {
+                left = max_entry->first;
             }
         }
-        
-        ans.push_back({left, right});
-        return ans;
+        if (small_entry != intervals.end() && small_entry->first == value + 1) {
+            right = small_entry->second;
+            intervals.erase(small_entry);
+        }
+        intervals[left] = right;
+    }
+
+    vector<vector<int>> getIntervals() {
+        vector<vector<int>> answer;
+        for (const auto& p : intervals) {
+            answer.push_back({p.first, p.second});
+        }
+        return answer;
     }
 };
-
-/**
- * Your SummaryRanges object will be instantiated and called as such:
- * SummaryRanges* obj = new SummaryRanges();
- * obj->addNum(value);
- * vector<vector<int>> param_2 = obj->getIntervals();
- */

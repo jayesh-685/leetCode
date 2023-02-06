@@ -21,7 +21,7 @@ public:
         minHeap.push({0, 0}); // dist, src
         while (!minHeap.empty()) {
             auto[d, u] = minHeap.top(); minHeap.pop();
-            if (d > dist[u]) continue; // Skip if `d` is not updated to latest version!
+            // if (d > dist[u]) continue; // Skip if `d` is not updated to latest version!
             for(auto [v, time] : graph[u]) {
                 if (dist[v] > d + time) {
                     dist[v] = d + time;

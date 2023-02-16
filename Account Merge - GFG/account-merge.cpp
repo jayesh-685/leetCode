@@ -56,6 +56,11 @@ public:
     }
 };
 
+// we will assign a id to each node (id is i for details[i][0] name)
+/*
+for each mail, we will assigne the id of the name it is associated with. if a mail was already associated 
+with some id then we will do a union
+*/
 class Solution {
 public:
     vector<vector<string>> accountsMerge(vector<vector<string>> &details) {

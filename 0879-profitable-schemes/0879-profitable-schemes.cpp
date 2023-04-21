@@ -1,31 +1,25 @@
 class Solution {
 public:
-    int mod = 1e9 + 7;
-    int memo[101][101][101];
-    
-    int find(int pos, int count, int profit, int n, int minProfit, vector<int>& group, vector<int>& profits) {
-        if (pos == group.size()) {
-            // If profit exceeds the minimum required; it's a profitable scheme.
-            return profit >= minProfit;
-        }
-        
-        if (memo[pos][count][profit] != -1) {
-            // Repeated subproblem, return the stored answer.
-            return memo[pos][count][profit];
-        }
-        
-        // Ways to get a profitable scheme without this crime.
-        int totalWays = find(pos + 1, count, profit, n, minProfit, group, profits);
-        if (count + group[pos] <= n) {
-            // Adding ways to get profitable schemes, including this crime.
-            totalWays += find(pos + 1, count + group[pos], min(minProfit, profit + profits[pos]), n, minProfit, group, profits);
-        }
-        
-        return memo[pos][count][profit] = totalWays % mod;
-    }
-             
     int profitableSchemes(int n, int minProfit, vector<int>& group, vector<int>& profit) {
-        memset(memo, -1,sizeof(memo));
-        return find(0, 0, 0, n, minProfit, group, profit);
+        int len = group.size(), MOD = (int)1e9 + 7;
+        vector<vector<vector<int>>> dp(len + 1, vector<vector<int>>(n + 1, vector<int>(minProfit + 1)));
+        dp[0][0][0] = 1;
+        for (int i = 1; i <= len; i++) {
+            int members = group[i - 1], earn = profit[i - 1];
+            for (int j = 0; j <= n; j++) {
+                for (int k = 0; k <= minProfit; k++) {
+                    if (j < members) {
+                        dp[i][j][k] = dp[i - 1][j][k];
+                    } else {
+                        dp[i][j][k] = (dp[i - 1][j][k] + dp[i - 1][j - members][max(0, k - earn)]) % MOD;
+                    }
+                }
+            }
+        }
+        int sum = 0;
+        for (int j = 0; j <= n; j++) {
+            sum = (sum + dp[len][j][minProfit]) % MOD;
+        }
+        return sum;
     }
 };

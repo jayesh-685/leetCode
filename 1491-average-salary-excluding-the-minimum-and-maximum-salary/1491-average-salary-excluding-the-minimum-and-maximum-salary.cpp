@@ -1,11 +1,7 @@
 class Solution {
 public:
-    double average(vector<int>& salary) {
-        int sum = accumulate(begin(salary), end(salary), 0);
-        sum -= *min_element(begin(salary), end(salary));
-        sum -= *max_element(begin(salary), end(salary));
-        
-        double ans = (double)sum/(size(salary)-2);
-        return ans;
-    }
+    double average(vector<int>& s) {
+    return (accumulate(begin(s), end(s), 0.) - *min_element(begin(s), end(s)) 
+        - *max_element(begin(s), end(s))) / (s.size() - 2);
+}
 };

@@ -1,29 +1,19 @@
 class UndergroundSystem {
 public:
-    unordered_map <int, int>        entringTime;
-    unordered_map <int, string>     entringStation;
-    unordered_map <string, int>     journeyCnt;
-    unordered_map <string, int>     journeyTime;
-    UndergroundSystem() {
-        
+    unordered_map<int, pair<string, int>> m;
+    unordered_map<string, pair<int, int>> stats;
+    void checkIn(int id, string startStation, int timeIn) {
+        m[id] = {startStation, timeIn};
     }
-    
-    void checkIn(int id, string stationName, int t) {
-        entringTime[id] = t;
-        entringStation[id] = stationName;
+    void checkOut(int id, string endStation, int timeOut) {
+        const auto &[startStation, timeIn] = m[id];
+        auto &[totalDuration, tripsCnt] = stats[startStation + ">" + endStation];
+        totalDuration += timeOut - timeIn;
+        ++tripsCnt;
     }
-    
-    void checkOut(int id, string stationName, int t) {
-        string journey = entringStation[id] + "+" + stationName;
-        journeyCnt[journey]++;
-        journeyTime[journey] += t-entringTime[id];
-        
-        // cout << journey << " " << journeyCnt[journey] << " " << journeyTime[journey] << endl;
-    }
-    
     double getAverageTime(string startStation, string endStation) {
-        string journey = startStation + "+" + endStation;
-        return ((double)journeyTime[journey]/journeyCnt[journey]);
+        auto [totalDuration, tripsCnt] = stats[startStation + ">" + endStation];
+        return (double)totalDuration / tripsCnt;
     }
 };
 
